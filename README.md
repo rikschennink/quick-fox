@@ -1,6 +1,6 @@
 Quick Fox
 =========
 
-A quick way to visualize characters over various webfonts.
+A quick way to visualize characters in web safe fonts.
 
 http://rikschennink.github.io/quick-fox/
