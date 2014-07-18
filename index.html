@@ -224,12 +224,12 @@
 
     <div class="data">
         <label for="characters">Characters</label>
-        <input type="text" id="characters" value="foxy"/>
+        <input type="text" id="characters"/>
     </div>
 
     <div>
         <label for="color">Color</label>
-        <input type="color" id="color" value="#222"/>
+        <input type="color" id="color"/>
     </div>
 
 </form>
@@ -298,8 +298,23 @@
     var family;
     var header;
     var colorField = document.getElementById('color');
+    
+    var remember = function(){
 
+        var fields = ['characters','color'].map(function(id){
+            return document.getElementById(id);
+        });
 
+        var params = fields.filter(function(field){return field.value.length}).map(function(field){
+            return field.id + '=' + encodeURIComponent(field.value);
+        });
+
+        if(!params.length) {
+            return;
+        }
+
+        window.history.pushState(null,'','?' + params.join('&'));
+    };
 
     var getColor = function() {
         return colorField.value || '#222';
@@ -327,9 +342,9 @@
                 item.style.fontFamily = family;
             }
             item.innerHTML =
-                    '<h2>' + header + '</h2>' +
-                    '<p style="color:' + getColor() + ';">' + charactersField.value + '</p>' +
-                    '<pre><code>' + family + '</code></pre>';
+                '<h2>' + header + '</h2>' +
+                '<p style="color:' + getColor() + ';">' + charactersField.value + '</p>' +
+                '<pre><code>' + family + '</code></pre>';
 
             list.appendChild(item);
 
@@ -337,12 +352,14 @@
 
         list.style.display = '';
 
+        remember();
     };
 
     var setColors = function() {
 
         var items = list.getElementsByTagName('p');
         var i=0;
+        var l=items.length;
         var color = getColor();
 
         if (color.length < 3 || color.indexOf('#')===-1) {return;}
@@ -351,6 +368,7 @@
             items[i].style.color = color;
         }
 
+        remember();
     };
 
 
@@ -374,6 +392,24 @@
         }
     });
 
+    // prefill
+    charactersField.value = 'Quick Fox';
+    colorField.value = '#222';
+
+    // override with querystring
+    var query = window.location.search;
+    if (query) {
+
+        query = query.substr(1);
+
+        var parts = query.split('&');
+        parts.forEach(function(part){
+            var nameValue = part.split('=');
+            var field = document.getElementById(nameValue[0]).value = decodeURIComponent(nameValue[1]);
+        });
+    }
+
+    // set values
     setValues();
 
 </script>
