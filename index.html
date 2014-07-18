@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
 
-    <meta charset="utf-8"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <meta name="author" content="Rik Schennink">
+    <meta name="description" content="Quick Character Visualizer for Web Safe Fonts">
+
 
     <style>
 
@@ -31,6 +36,14 @@
         body {
             margin:0 auto;
             padding:3rem 2rem 0;
+        }
+
+        a[href*=github] {
+            position:absolute;
+            right:.5rem;
+            top:.5rem;
+            font-size:.875rem;
+            color:#000;
         }
 
         form {
@@ -220,6 +233,8 @@
 
 <h1>Font viewer</h1>
 
+<a href="https://github.com/rikschennink/quick-fox">Fork on GitHub</a>
+
 <form>
 
     <div class="data">
@@ -235,6 +250,7 @@
 </form>
 
 <ul></ul>
+
 
 <script src="font-available.js"></script>
 
