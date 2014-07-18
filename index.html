@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8"/>
+
+    <style>
+
+        html {
+            background:#fff;
+            color:#333;
+        }
+
+        html,body {
+            margin:0;
+            padding:0;
+        }
+
+        html,input,button {
+            font-family:Helvetica,Arial,sans-serif;
+        }
+
+        h1 {
+            display:none;
+        }
+
+        label {
+            display:block;
+        }
+
+        body {
+            margin:0 auto;
+            padding:3rem 2rem 0;
+        }
+
+        form {
+            padding:.5rem;
+            margin-bottom:3rem;
+            text-align:center;
+        }
+
+        div {
+            position:relative;
+            display:inline-block;
+            vertical-align:middle;
+        }
+
+        div:last-of-type label {
+            display:none;
+        }
+
+        label {
+            position:absolute;
+            top:.6875rem;
+            left:.5rem;
+            font-size:1.5rem;
+            padding:0 .25rem;
+            line-height:1;
+            color:#aaa;
+            font-weight: normal;
+            background:#fff;
+            pointer-events:none;
+            text-transform:lowercase;
+            -webkit-font-smoothing:antialiased;
+        }
+
+        input {
+            margin:0;
+        }
+
+        input:focus {
+            outline:0;
+        }
+
+        input[type=text] {
+            font-size:1.5rem;
+            background:#fff;
+            border-radius:.5rem;
+            padding:.5rem .75rem;
+            border:1px solid #ccc;
+
+            box-shadow:inset 0 .125em .25em rgba(0,0,0,.05);
+        }
+
+        input[type=color] {
+            width:2rem;
+            height:2rem;
+            margin-left:.5rem;
+            background:#fff;
+            border:1px solid #ccc;
+            border-radius:.125rem;
+        }
+
+        ul,li {
+            margin:0;
+            padding:0;
+            list-style-type:none;
+        }
+
+        li {
+            position:relative;
+            display:inline-block;
+            box-sizing:border-box;
+            padding:0 1rem;
+            text-align:center;
+            width:12rem;
+            padding-bottom:5rem;
+        }
+
+        h2,p {
+            margin:0;
+            width:100%;
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+
+        h2 {
+            font-size:1rem;
+            height:2rem;
+            vertical-align:middle;
+            color:#aaa;
+            font-weight:normal;
+            -webkit-font-smoothing:antialiased;
+        }
+
+        p {
+            font-size:1.5rem;
+        }
+
+        pre {
+            position:absolute;
+            left:1rem;
+            right:1rem;
+            padding:.75rem;
+            margin-top:0;
+            font-size:.75rem;
+            opacity:0;
+            border-radius:.25rem;
+            color:#666;
+            text-align:left;
+            overflow:hidden;
+            text-overflow:ellipsis;
+
+            -webkit-transition:opacity .125s;
+            -moz-transition:opacity .125s;
+            -ms-transition:opacity .125s;
+            transition:opacity .125s;
+        }
+
+        li:hover pre {
+            white-space: normal;
+
+            background:#fff;
+            box-shadow:0 .125rem .125rem rgba(0,0,0,.15);
+            z-index:1;
+            opacity:1;
+        }
+
+        .unavailable h2 {
+            color:#e8a3a6;
+            text-decoration:line-through;
+        }
+
+        .unavailable p {
+            visibility:hidden;
+        }
+
+        .unavailable pre {
+            display:none;
+        }
+
+
+        input[type=text],
+        label {
+            -webkit-transition:all 150ms;
+            -moz-transition:all 150ms;
+            -ms-transition:all 150ms;
+            transition:all 150ms;
+        }
+
+        label {
+            -webkit-transform-origin:left center;
+            -moz-transform-origin:left center;
+            -ms-transform-origin:left center;
+            transform-origin:left center;
+            -webkit-transform:translateY(0) scale(1);
+            -moz-transform:translateY(0) scale(1);
+            -ms-transform:translateY(0) scale(1);
+            transform:translateY(0) scale(1);
+        }
+
+        .data label,
+        .focus label {
+            -webkit-transform:translateY(-1.5rem) scale(0.6875);
+            -moz-transform:translateY(-1.5rem) scale(0.6875);
+            -ms-transform:translateY(-1.5rem) scale(0.6875);
+            transform:translateY(-1.5rem) scale(0.6875);
+        }
+
+        .focus label {
+            color:#ff5b20;
+        }
+
+        .focus input {
+            border-color:#ff5b20;
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+
+
+<h1>Font viewer</h1>
+
+<form>
+
+    <div class="data">
+        <label for="characters">Characters</label>
+        <input type="text" id="characters" value="foxy"/>
+    </div>
+
+    <div>
+        <label for="color">Color</label>
+        <input type="color" id="color" value="#222"/>
+    </div>
+
+</form>
+
+<ul></ul>
+
+<script src="font-available.js"></script>
+
+<script>
+
+    // font list from http://cssfontstack.com
+
+    var families = [
+        'Arial, "Helvetica Neue", Helvetica, sans-serif',
+        '"Arial Black", "Arial Bold", Gadget, sans-serif',
+        '"Arial Narrow", Arial, sans-serif',
+        '"Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif',
+        '"Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif',
+        'Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif',
+        'Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif',
+        '"Century Gothic", CenturyGothic, AppleGothic, sans-serif',
+        '"Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif',
+        'Futura, "Trebuchet MS", Arial, sans-serif',
+        'Geneva, Tahoma, Verdana, sans-serif',
+        '"Gill Sans", "Gill Sans MT", Calibri, sans-serif',
+        '"Helvetica Neue", Helvetica, Arial, sans-serif',
+        'Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif',
+        '"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif',
+        'Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif',
+        '"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif',
+        'Tahoma, Verdana, Segoe, sans-serif',
+        '"Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif',
+        'Verdana, Geneva, sans-serif',
+        'Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif',
+        '"Big Caslon", "Book Antiqua", "Palatino Linotype", Georgia, serif',
+        '"Bodoni MT", Didot, "Didot LT STD", "Hoefler Text", Garamond, "Times New Roman", serif',
+        '"Book Antiqua", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif',
+        '"Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif',
+        'Cambria, Georgia, serif',
+        'Didot, "Didot LT STD", "Hoefler Text", Garamond, "Times New Roman", serif',
+        'Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif',
+        'Georgia, Times, "Times New Roman", serif',
+        '"Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif',
+        '"Hoefler Text", "Baskerville old face", Garamond, "Times New Roman", serif',
+        '"Lucida Bright", Georgia, serif',
+        'Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif',
+        'Perpetua, Baskerville, "Big Caslon", "Palatino Linotype", Palatino, "URW Palladio L", "Nimbus Roman No9 L", serif',
+        'Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif',
+        '"Rockwell Extra Bold", "Rockwell Bold", monospace',
+        'TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif',
+        '"Andale Mono", AndaleMono, monospace',
+        'Consolas, monaco, monospace',
+        '"Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace',
+        '"Lucida Console", "Lucida Sans Typewriter", Monaco, "Bitstream Vera Sans Mono", monospace',
+        '"Lucida Sans Typewriter", "Lucida Console", Monaco, "Bitstream Vera Sans Mono", monospace',
+        'Monaco, Consolas, "Lucida Console", monospace',
+        'Copperplate, "Copperplate Gothic Light", fantasy',
+        'Papyrus, fantasy',
+        '"Brush Script MT", cursive'
+    ];
+
+    var charactersField = document.getElementById('characters');
+    var list = document.getElementsByTagName('ul')[0];
+    var l=families.length;
+    var item;
+    var family;
+    var header;
+    var colorField = document.getElementById('color');
+
+
+
+    var getColor = function() {
+        return colorField.value || '#222';
+    };
+
+    var setValues = function() {
+
+        list.innerHTML = '';
+        list.style.display = 'none';
+
+        if (!charactersField.value.length) {return;}
+
+        var i=0;
+        for (;i<l;i++) {
+
+            family = families[i];
+            header = family.split(',')[0].replace(/"/gi,'');
+
+            item = document.createElement('li');
+
+            if (!isFontAvailable(header)) {
+                item.classList.add('unavailable');
+            }
+            else {
+                item.style.fontFamily = family;
+            }
+            item.innerHTML =
+                    '<h2>' + header + '</h2>' +
+                    '<p style="color:' + getColor() + ';">' + charactersField.value + '</p>' +
+                    '<pre><code>' + family + '</code></pre>';
+
+            list.appendChild(item);
+
+        }
+
+        list.style.display = '';
+
+    };
+
+    var setColors = function() {
+
+        var items = list.getElementsByTagName('p');
+        var i=0;
+        var color = getColor();
+
+        if (color.length < 3 || color.indexOf('#')===-1) {return;}
+
+        for (;i<l;i++) {
+            items[i].style.color = color;
+        }
+
+    };
+
+
+    // font adjustments
+    colorField.addEventListener('input',setColors);
+    charactersField.addEventListener('input',setValues);
+
+
+    // focus label
+    charactersField.addEventListener('focus',function(){
+        charactersField.parentNode.classList.add('focus');
+    });
+
+    charactersField.addEventListener('blur',function(){
+        charactersField.parentNode.classList.remove('focus');
+        if (!this.value.length) {
+            charactersField.parentNode.classList.remove('data');
+        }
+        else {
+            charactersField.parentNode.classList.add('data');
+        }
+    });
+
+    setValues();
+
+</script>
+
+</body>
+</html>
